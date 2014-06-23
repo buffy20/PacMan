@@ -46,6 +46,7 @@ public class PacManPanel extends javax.swing.JPanel {
                     switch (contenido) {
                         case PacMan.EMPTY:
                             break;
+                        //Pintar las bolitas
                         case PacMan.BALL:
                             try {
                                 image = ImageIO.read(this.getClass().getResource("/resources/ball.png"));
@@ -56,6 +57,7 @@ public class PacManPanel extends javax.swing.JPanel {
                                 Logger.getLogger(PacManPanel.class.getName()).log(Level.SEVERE, null, ex);
                             }
                             break;
+                        //Pintar los fantastmas
                         case PacMan.GHOST:
                             try {
                                 image = ImageIO.read(this.getClass().getResource("/resources/ghost.png"));
@@ -125,10 +127,12 @@ public class PacManPanel extends javax.swing.JPanel {
                                 Logger.getLogger(PacManPanel.class.getName()).log(Level.SEVERE, null, ex);
                             }
                             break;
+                        //Pintar los muros
                         case PacMan.WALL:
                             g.setColor(Color.PINK);
                             g.fillRect(c * CELLSIZE, f * CELLSIZE, CELLSIZE, CELLSIZE);
                             break;
+                        //Pintar la fruta
                         case PacMan.PRIZE:
                             try {
                                 image = ImageIO.read(this.getClass().getResource("/resources/fruta.png"));

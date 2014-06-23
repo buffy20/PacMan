@@ -22,7 +22,8 @@ public class PacMan {
     private Random random = new Random();
     private Point playerPosition, newPlayerPosition;
     private int score = 0;
-
+    BufferedReader bufferedReader;
+    
     //Declaración de atributos públicos
     /*Iconos para representar los personajes */
     public static final char BALL = '.';
@@ -44,7 +45,7 @@ public class PacMan {
     //Constructor
     public PacMan(String fileName) {
         ghostList = new ArrayList();
-        BufferedReader bufferedReader = null;
+        bufferedReader = null;
 
         //Crear el lector del fichero
         try {
@@ -62,8 +63,13 @@ public class PacMan {
         ghostList = new ArrayList();
         direction = RIGHT;
         screen = new char[yRow][xColumn];
-
-        int row = 0;
+        
+        //Generar la fruta
+        generatePrize();
+    }
+    
+    public void paintScreen(){
+       int row = 0;
         int column = 0;
         //Abrir el fichero para cargar la pantalla que contiene el juego
         try {
@@ -88,8 +94,6 @@ public class PacMan {
         } catch (IOException ex) {
             Logger.getLogger(PacMan.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //Generar la fruta
-        generatePrize();
     }
 
     public char[][] getScreen() {
@@ -134,31 +138,31 @@ public class PacMan {
 
     //Mover los fantasmas
     public boolean moveGhost() {
-//        //Guardar posición actual del fantasma
-//        Point ghost = new Point(3,16);
-//        Point ghost1 = new Point(13,30);
-//        Point ghost2 = new Point(35,16);
-//        Point ghost3 = new Point(0,16);
-//        
-//        //Point oldGhostPosition = ghostList.get(ghostList.size() - 1);
-//        Point newGhost1 = null;
-//
-//        if (ghost1.y > yRow / 2 && ghost1.x > xColumn / 2) {
-//            ghostDirection = LEFT;
-//            newGhost1 = new Point(ghost1.x - 1, ghost1.y);
-//        } else {
-//            ghostDirection = RIGHT;
-//            newGhost1 = new Point(ghost1.x + 1, ghost1.y);
-//        }
-//        screen[newGhost1.y][newGhost1.x] = GHOST1;
-//        ghostList.add(ghostList.size(), newGhost1);
+        //Guardar posición actual del fantasma
+        Point ghost = new Point(3,16);
+        Point ghost1 = new Point(13,30);
+        Point ghost2 = new Point(35,16);
+        Point ghost3 = new Point(0,16);
+        
+        Point oldGhostPosition = ghostList.get(ghostList.size() - 1);
+        Point newGhost1 = null;
+
+        if (ghost1.y > yRow / 2 && ghost1.x > xColumn / 2) {
+            ghostDirection = LEFT;
+            newGhost1 = new Point(ghost1.x - 1, ghost1.y);
+        } else {
+            ghostDirection = RIGHT;
+            newGhost1 = new Point(ghost1.x + 1, ghost1.y);
+        }
+        screen[newGhost1.y][newGhost1.x] = GHOST1;
+        ghostList.add(ghostList.size(), newGhost1);
         return true;
     }
 
     //Mover el Pacman según indique el jugador
     public void move() {
         playerPosition = ghostList.get(0);
-        newPlayerPosition = null;
+        newPlayerPosition = playerPosition;
 
         if (!this.isDead()) {
             switch (direction) {
@@ -178,8 +182,6 @@ public class PacMan {
             //Mostrar el pacman en la posición indicada según se vaya moviendo
             screen[newPlayerPosition.y][newPlayerPosition.x] = PLAYER;
             ghostList.add(0, newPlayerPosition);
-            //Borrar el pacma de la posición antigua
-            screen[playerPosition.y][playerPosition.x] = EMPTY;
         } else {
             JOptionPane.showMessageDialog(null, "Game Over", "Try it again", JOptionPane.INFORMATION_MESSAGE);
         }
@@ -191,17 +193,19 @@ public class PacMan {
 
     //Saber si el Pacman se ha chocado con algún muro
     public boolean isDead() {
-        return screen[playerPosition.x][playerPosition.y] == WALL;
+        return screen[playerPosition.y][playerPosition.x] == WALL;
     }
 
     //Obtener la puntuación
     public int getScore() {
         //Sumar 10 puntos cada vez que el Pacman se coma una bola
-        if (screen[playerPosition.y][playerPosition.y] == BALL) {
+        if (screen[playerPosition.y][playerPosition.x] == BALL) {
             score += 10;
-        } else if (screen[playerPosition.y][playerPosition.y] == PRIZE) {
+        } else if (screen[playerPosition.y][playerPosition.x] == PRIZE) {
             score += 100;
         }
+        //Borrar el pacman de la posición antigua
+        screen[playerPosition.y][playerPosition.x] = EMPTY;
         return score;
     }
 }

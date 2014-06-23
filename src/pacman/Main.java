@@ -7,14 +7,14 @@ package pacman;
 public class Main extends javax.swing.JFrame {
 
     private PacMan pacman;
-    private PacManLoop pacmanLoop;
-    private int pauseSpeed = 500;
 
     /**
      * Creates new form Main
      */
     public Main() {
         initComponents();
+        pacman = new PacMan("level.dat");
+        pacman.paintScreen();
     }
 
     /**
@@ -181,11 +181,9 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        pacman = new PacMan("level.dat");
         //Pasar el contenido del juego al panel
         pacManPanel1.setPacman(pacman);
-        pacmanLoop = new PacManLoop(pacman, pauseSpeed, pacManPanel1);
-        pacmanLoop.start();
+        pacManPanel1.repaint();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
@@ -196,24 +194,28 @@ public class Main extends javax.swing.JFrame {
         pacman.setDirection(PacMan.DOWN);
         pacman.move();
         jLabel1.setText("" + pacman.getScore());
+        pacManPanel1.repaint();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         pacman.setDirection(PacMan.UP);
         pacman.move();
         jLabel1.setText("" + pacman.getScore());
+        pacManPanel1.repaint();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         pacman.setDirection(PacMan.RIGHT);
         pacman.move();
         jLabel1.setText("" + pacman.getScore());
+        pacManPanel1.repaint();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         pacman.setDirection(PacMan.LEFT);
         pacman.move();
         jLabel1.setText("" + pacman.getScore());
+        pacManPanel1.repaint();
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
